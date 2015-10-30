@@ -66,7 +66,7 @@
       date.hasMonth = false;
     } else {
       date = date.split('/');
-      date = new Date(parseInt(date[1], 10), parseInt(date[0], 10)-1, 1);
+      date = new Date(parseInt(date[0], 10), parseInt(date[1], 10)-1, 1);
       date.hasMonth = true;
     }
 
@@ -172,8 +172,8 @@
    */
   Bubble.prototype.getDateLabel = function() {
     return [
-      (this.start.hasMonth ? this.formatMonth(this.start.getMonth() + 1) + '/' : '' ) + this.start.getFullYear(),
-      (this.end ? '-' + ((this.end.hasMonth ? this.formatMonth(this.end.getMonth() + 1) + '/' : '' ) + this.end.getFullYear()) : '')
+      this.start.getFullYear() + (this.start.hasMonth ? '/' + this.formatMonth(this.start.getMonth() + 1) : '' ),
+      (this.end ? '-' + this.end.getFullYear() + (this.end.hasMonth ? '/' + this.formatMonth(this.end.getMonth() + 1) : '' ) : '')
     ].join('');
   };
 
