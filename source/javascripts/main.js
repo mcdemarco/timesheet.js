@@ -8,7 +8,7 @@
     
     /* jshint -W031 */
     new Timesheet('timesheet-default', 2002, 2013, [
-      ['2002', '2002/09', 'A freaky awesome time', 'lorem'],
+      ['2002', '2002/09', 'A freakyyyyy awesome time', 'lorem'],
       ['2002/06', '2003/09', 'Some great memories', 'ipsum'],
       ['2003', 'Had very bad luck'],
       ['2003/10', '2006', 'At least had fun', 'dolor'],

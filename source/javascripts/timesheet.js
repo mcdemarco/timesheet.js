@@ -1,6 +1,25 @@
 (function() {
   'use strict';
 
+	/**
+	 * Create a replacement for the Date object.
+	 */
+	function Cycle(date) {
+		this.date = date;
+		this.hasMonth = this.date.indexOf('/') > -1;
+	}
+
+	Cycle.prototype = {
+		getFullYear: function() {
+			var fullYear = this.date.indexOf('/') > -1 ? this.date.toString().split('/')[0] : this.date;
+			return parseInt(fullYear,10);
+		},
+		getMonth: function() {
+			return (this.date ? (this.date.toString().split('/').length > 1 ? parseInt(this.date.split('/')[1],10) - 1 : 0) : 0);
+		}
+	};
+
+	
   /**
    * Initialize a Timesheet
    */
@@ -60,7 +79,9 @@
   /**
    * Parse data string
    */
-  Timesheet.prototype.parseDate = function(date) {
+	Timesheet.prototype.parseDate = function(date) {
+		date = new Cycle(date);
+		/*		
     if (date.indexOf('/') === -1) {
       date = new Date(parseInt(date, 10), 0, 1);
       date.hasMonth = false;
@@ -69,6 +90,7 @@
       date = new Date(parseInt(date[0], 10), parseInt(date[1], 10)-1, 1);
       date.hasMonth = true;
     }
+*/
 
     return date;
   };
@@ -151,7 +173,7 @@
         months += 12 - (this.start.hasMonth ? this.start.getMonth() : 0);
         months += 12 * (fullYears-1 > 0 ? fullYears-1 : 0);
       } else {
-        months += this.end.getMonth() + 1;
+        months += this.end.getMonth() + 0;
         months += 12 - (this.start.hasMonth ? this.start.getMonth() : 0);
         months += 12 * (fullYears-1);
       }
@@ -174,7 +196,7 @@
     return [
       this.start.getFullYear() + (this.start.hasMonth ? '/' + this.formatMonth(this.start.getMonth() + 1) : '' ),
       (this.end ? '-' + this.end.getFullYear() + (this.end.hasMonth ? '/' + this.formatMonth(this.end.getMonth() + 1) : '' ) : '')
-    ].join('');
+    ].join(' ');
   };
 
   window.Timesheet = Timesheet;
