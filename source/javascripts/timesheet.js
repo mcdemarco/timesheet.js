@@ -7,6 +7,7 @@
 	function Cycle(date) {
 		this.date = date;
 		this.hasMonth = this.date.indexOf('/') > -1;
+		this.monthCount = 8;
 	}
 
 	Cycle.prototype = {
@@ -137,6 +138,13 @@
   };
 
   /**
+   * Retrieve month count
+   */
+  Bubble.prototype.getMonthCount = function() {
+    return this.start.monthCount;
+  };
+
+  /**
    * Format month number
    */
   Bubble.prototype.formatMonth = function(num) {
@@ -149,7 +157,7 @@
    * Calculate starting offset for bubble
    */
   Bubble.prototype.getStartOffset = function() {
-    return (this.widthMonth/12) * (12 * (this.start.getFullYear() - this.min) + this.start.getMonth());
+    return (this.widthMonth/this.getMonthCount()) * (this.getMonthCount() * (this.start.getFullYear() - this.min) + this.start.getMonth());
   };
 
   /**
@@ -167,15 +175,15 @@
     var months = 0;
 
     if (!this.end) {
-      months += !this.start.hasMonth ? 12 : 1;
+      months += !this.start.hasMonth ? this.getMonthCount() : 1;
     } else {
       if (!this.end.hasMonth) {
-        months += 12 - (this.start.hasMonth ? this.start.getMonth() : 0);
-        months += 12 * (fullYears-1 > 0 ? fullYears-1 : 0);
+        months += this.getMonthCount() - (this.start.hasMonth ? this.start.getMonth() : 0);
+        months += this.getMonthCount() * (fullYears-1 > 0 ? fullYears-1 : 0);
       } else {
         months += this.end.getMonth() + 0;
-        months += 12 - (this.start.hasMonth ? this.start.getMonth() : 0);
-        months += 12 * (fullYears-1);
+        months += this.getMonthCount() - (this.start.hasMonth ? this.start.getMonth() : 0);
+        months += this.getMonthCount() * (fullYears-1);
       }
     }
 
@@ -186,7 +194,7 @@
    * Get bubble's width in pixel
    */
   Bubble.prototype.getWidth = function() {
-    return (this.widthMonth/12) * this.getMonths();
+    return (this.widthMonth/this.getMonthCount()) * this.getMonths();
   };
 
   /**
